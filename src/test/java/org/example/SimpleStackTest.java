@@ -50,6 +50,62 @@ class SimpleStackTest {
     }
 
     @Test
+    @DisplayName("Test peek a stack")
+    public void testPeek() throws EmptyStackException {
+        // Given an non empty stack
+        Stack stack = new SimpleStack();
+        stack.push(new SimpleItem());
+        stack.push(new SimpleItem());
+        Item lastItem = new SimpleItem();
+        stack.push(lastItem);
+        int initialSize = stack.getSize();
+
+        // When we "peek" the stack
+        Item peekedItem = stack.peek();
+
+        // then the peeked item is the last item pushed
+        assertSame(lastItem, peekedItem);
+        // and the size of the stack remains the same
+        assertEquals(initialSize, stack.getSize());
+
+    }
+
+    @Test
+    @DisplayName("Test limit when trying to peek an empty stack")
+    public void testPeekOnEmptyStack()  {
+        // Given an empty stack
+        Stack stack = new SimpleStack();
+
+        // When we "peek" the stack, should throws an EmptyStackException.
+        //assertThrows(EmptyStackException.class, ()->stack.peek(), "EmptyStackException not thrown");
+        assertThrows(EmptyStackException.class, stack::peek, "EmptyStackException not thrown");
+    }
+
+    @Test
+    @DisplayName("Test pop a stack")
+    public void testPop() throws EmptyStackException {
+        // Given an non empty stack
+        Stack stack = new SimpleStack();
+        stack.push(new SimpleItem());
+        Item beforeLastItem = new SimpleItem();
+        stack.push(beforeLastItem);
+        Item lastItem = new SimpleItem();
+        stack.push(lastItem);
+        int initialSize = stack.getSize();
+
+        // When we "pop" the stack
+        Item popedItem = stack.pop();
+
+        // then the poped item is the last item pushed
+        assertSame(lastItem, popedItem);
+        // and the size of the stack is minus one
+        assertEquals(initialSize-1, stack.getSize());
+        // and if we peek, we get the before last item
+        assertSame(beforeLastItem, stack.peek());
+
+    }
+
+    @Test
     @DisplayName("Test limit when trying to pop an empty stack")
     public void testPopOnEmptyStack()  {
         // Given an empty stack
@@ -58,5 +114,13 @@ class SimpleStackTest {
         // When we "pop" the stack, should throws an EmptyStackException.
         //assertThrows(EmptyStackException.class, ()->stack.pop(), "EmptyStackException not thrown");
         assertThrows(EmptyStackException.class, stack::pop, "EmptyStackException not thrown");
+    }
+
+    @Test
+    @Disabled
+    public void jouonsAvecEqualsSame() {
+        assertEquals(new String("Toto"), new String("Toto"));
+        assertNotSame(new String("Toto"), new String("Toto"));
+        assertSame("Titi", "Titi");
     }
 }
