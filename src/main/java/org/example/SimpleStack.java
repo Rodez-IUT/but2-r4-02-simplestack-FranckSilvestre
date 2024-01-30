@@ -39,11 +39,11 @@ public class SimpleStack implements Stack {
      */
     @Override
     public Item peek() throws EmptyStackException {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
+        requireNotEmptyStack();
         return items.get(getSize()-1);
     }
+
+
 
     /**
      * Removes the object at the top of this stack and returns
@@ -53,11 +53,15 @@ public class SimpleStack implements Stack {
      */
     @Override
     public Item pop() throws EmptyStackException {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
+        requireNotEmptyStack();
         Item res = peek();
         items.remove(getSize()-1);
         return res;
+    }
+
+    private void requireNotEmptyStack() throws EmptyStackException {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
     }
 }
